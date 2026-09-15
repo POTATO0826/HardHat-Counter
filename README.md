@@ -1,4 +1,32 @@
-# Sample Hardhat 3 Project (`node:test` and `viem`)
+# HardHat Counter
+
+The project lives directly in `C:\HardHat-Counter`; run commands from this folder.
+
+## Quick start
+
+Use Node.js 24 LTS and install dependencies with `npm ci`.
+
+```shell
+npm run dev
+```
+
+Open http://127.0.0.1:3000. The frontend reads the Counter deployed on
+Sepolia and uses MetaMask to approve increments. Select Sepolia in MetaMask
+and fund your wallet with Sepolia test ETH to increment the counter.
+The frontend does not require a local Hardhat node.
+
+The Sepolia address and RPC endpoint are configured at the top of
+`frontend/app.js`. Update the address after deploying a different contract.
+
+### Project checks
+
+```shell
+npm run build
+npm test
+npm run typecheck
+```
+
+`npm run node` starts a local Hardhat node for local development.
 
 This project showcases a Hardhat 3 project using the native Node.js test runner (`node:test`) and the `viem` library for Ethereum interactions.
 
@@ -44,9 +72,10 @@ To run the deployment to Sepolia, you need an account with funds to send the tra
 
 You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+Set both the RPC URL and private key using `hardhat-keystore`:
 
 ```shell
+npx hardhat keystore set SEPOLIA_RPC_URL
 npx hardhat keystore set SEPOLIA_PRIVATE_KEY
 ```
 
