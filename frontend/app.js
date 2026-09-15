@@ -1,4 +1,4 @@
-// Your local deployment. Update this address if you deploy Counter elsewhere.
+// Your Sepolia deployment. Update this address if you deploy Counter elsewhere.
 const CONTRACT = "0x7340659510ac9d0A8B37fC96129766a9cCAA7658";
 const RPC_URL = "https://ethereum-sepolia-rpc.publicnode.com";
 const CHAIN_ID = "0xaa36a7"; //  Sepolia: 11155111 in hexadecimal
@@ -18,7 +18,7 @@ let walletRevision = 0;
 $("contract-address").textContent = shortAddress(CONTRACT);
 $("contract-address").title = CONTRACT;
 
-// Reads go directly to Hardhat. Only MetaMask can approve a transaction.
+// Reads go directly to Sepolia. Only MetaMask can approve a transaction.
 async function rpc(method, params = []) {
   const response = await fetch(RPC_URL, {
     method: "POST",
@@ -28,7 +28,7 @@ async function rpc(method, params = []) {
   });
   if (!response.ok)
     throw new Error(
-      "Hardhat is not responding. Keep your node terminal running.",
+      "Sepolia RPC is not responding. Try refreshing in a moment.",
     );
   const result = await response.json();
   if (result.error) throw new Error(result.error.message);
@@ -49,9 +49,9 @@ function errorMessage(error) {
   if (error.code === -32002)
     return "A request is already waiting. Open MetaMask to review it.";
   if (/insufficient funds/i.test(error.message))
-    return "This wallet needs local test ETH to pay the transaction fee.";
+    return "This wallet needs Sepolia test ETH to pay the transaction fee.";
   if (/fetch|timeout|networkerror/i.test(error.message))
-    return "Cannot reach Hardhat. Check that your local node is still running.";
+    return "Cannot reach Sepolia. Check your internet connection and try again.";
   return error.message || "Something went wrong. Please try again.";
 }
 
@@ -62,7 +62,7 @@ function renderWallet() {
     : !account
       ? "Connect MetaMask ↗"
       : !correctChain
-        ? "Switch to Hardhat ↗"
+        ? "Switch to Sepolia ↗"
         : "Wallet connected ✓";
   $("connect").disabled = busy || Boolean(account && correctChain);
   $("increment").disabled = busy || !ready || !account || !correctChain;
@@ -106,10 +106,10 @@ async function refresh() {
       rpc("eth_getCode", [CONTRACT, "latest"]),
     ]);
     if (chain !== CHAIN_ID)
-      throw new Error("Your local RPC is not Hardhat chain 31337.");
+      throw new Error("The RPC endpoint is not on Sepolia (chain 11155111).");
     if (!code || code === "0x")
       throw new Error(
-        "Counter is not deployed on this node. Deploy it locally, then refresh.",
+        "No contract found at this Sepolia address. Check your deployment address.",
       );
     const raw = await rpc("eth_call", [
       { to: CONTRACT, data: SELECTOR.x },
@@ -145,7 +145,7 @@ async function refresh() {
     ready = false;
     $("count").textContent = "—";
     $("count-note").textContent = errorMessage(error);
-    $("node-status").textContent = "Check local node";
+    $("node-status").textContent = "Check connection";
     $("node-status").className = "badge error";
   } finally {
     refreshing = false;
@@ -292,7 +292,7 @@ async function increment() {
     });
     status(
       "Transaction submitted",
-      "Waiting for your local blockchain to confirm it…",
+      "Waiting for Sepolia to confirm it…",
       "",
       hash,
     );
@@ -366,7 +366,7 @@ if (document.modelContext?.registerTool) {
         {
           name: "read_counter",
           description:
-            "Refresh and read the local Counter value. Does not send a transaction.",
+            "Refresh and read the Sepolia Counter value. Does not send a transaction.",
           inputSchema: {
             type: "object",
             properties: {},
@@ -388,7 +388,7 @@ if (document.modelContext?.registerTool) {
               ]),
             ).toString();
             await refresh();
-            return { value, contract: CONTRACT, chainId: 31337 };
+            return { value, contract: CONTRACT, chainId: Number(CHAIN_ID) };
           },
         },
         { signal: lifecycle.signal },
