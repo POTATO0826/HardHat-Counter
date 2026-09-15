@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Your first onchain counter. Connect MetaMask and increment your local Solidity contract." />
+    <title>Counter — One transaction at a time</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <a class="brand" href="./" aria-label="Counter home"><span class="brand-mark" aria-hidden="true">＋</span> counter<span class="brand-period">.</span></a>
+        <div class="header-actions"><span class="network-label">Sepolia</span><button id="connect" class="button button-dark">Connect MetaMask <span aria-hidden="true">↗</span></button></div>
+      </header>
+
+      <main>
+        <div class="intro"><p class="eyebrow">YOUR FIRST ONCHAIN EXPERIMENT</p><h1>Small steps.<br /><span>On the blockchain.</span></h1><p>A simple counter. A real smart contract.<br />Make your next transaction count.</p></div>
+
+        <div class="workspace">
+          <section class="counter-panel" aria-labelledby="counter-heading">
+            <div class="panel-top"><h2 id="counter-heading">The counter</h2><span id="node-status" class="badge">Connecting…</span></div>
+            <div class="counter-display"><p class="eyebrow">CURRENT VALUE</p><output id="count" aria-live="polite">—</output><p id="count-note">Reading your smart contract…</p></div>
+            <button id="increment" class="button button-orange increment" disabled><span>Increment counter</span><span class="plus" aria-hidden="true">＋ 1</span></button>
+            <p class="button-note">Each increment asks for approval in MetaMask.</p>
+            <div class="counter-bottom"><span>Stored onchain · Solidity</span><button id="refresh" class="text-button">Refresh value <span aria-hidden="true">↻</span></button></div>
+          </section>
+
+          <aside class="sidebar">
+            <section class="wallet-panel" aria-labelledby="wallet-heading"><div class="panel-top"><h2 id="wallet-heading">Your wallet</h2><span class="small-icon" aria-hidden="true">◇</span></div><p id="wallet-state" class="wallet-state">Not connected</p><p id="wallet-hint" class="muted">Connect MetaMask to start counting.</p><dl class="wallet-details"><div><dt>Network</dt><dd id="wallet-network">—</dd></div><div><dt>Balance</dt><dd id="balance">— ETH</dd></div></dl><p class="local-note">Sepolia test ETH. No real funds needed.</p></section>
+            <section class="contract-panel" aria-labelledby="contract-heading"><p class="eyebrow">UNDER THE HOOD</p><h2 id="contract-heading">Meet your contract.</h2><p class="muted">The number lives in <code>x</code>.<br /><code>inc()</code> adds one to it.</p><div class="address-row"><code id="contract-address" title="Contract address"></code><button id="copy" class="text-button" aria-label="Copy contract address">Copy</button></div><span class="contract-network">CHAIN 11155111 · SEPOLIA</span></section>
+          </aside>
+        </div>
+
+        <section class="activity" aria-labelledby="activity-heading"><div class="activity-title"><h2 id="activity-heading">Transaction status</h2><span>THIS SESSION</span></div><div id="activity-content" class="activity-content" role="status" aria-live="polite"><span class="activity-symbol" aria-hidden="true">↗</span><div><p id="transaction-title">Your next step starts here.</p><p id="transaction-detail">Connect your wallet, then increment the counter.</p><code id="transaction-hash" hidden></code></div></div></section>
+      </main>
+      <footer><span>Built to learn. Made to count.</span><span>Solidity <span class="separator">/</span> Hardhat <span class="separator">/</span> MetaMask</span></footer>
+    </div>
+  </body>
+</html>
